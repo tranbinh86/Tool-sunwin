@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tool Sunwin 🍁</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #0f111a; color: #eef; margin: 0; padding: 0; }
+  .splash, .main { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+  .hidden { display: none; }
+  .card { background: #1f2334; padding: 20px; border-radius: 10px; max-width: 500px; width: 90%; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+  input, textarea, button { width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: none; }
+  button { background: #6e4fff; color: white; font-weight: bold; cursor: pointer; }
+  .highlight { background: #5a3fff; padding: 2px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div id="splash" class="splash">
+  <div class="card">
+    <h2>🍁 Tool Sunwin</h2>
+    <p>Nhập key để kích hoạt:</p>
+    <input id="keyInput" placeholder="Nhập key..." />
+    <button onclick="verifyKey()">Kích hoạt</button>
+    <p id="keyMsg" style="font-size:14px;color:#aaa;">Key mẫu: SUNWIN2025</p>
+  </div>
+</div>
+
+<div id="main" class="main hidden">
+  <div class="card">
+    <h2>Tool Tài Xỉu 🍁</h2>
+    <textarea id="history" placeholder="Nhập lịch sử (T hoặc X mỗi dòng)..."></textarea>
+    <input type="number" id="base" value="20000" placeholder="Vốn gốc" />
+    <input type="number" id="stake" value="1000" placeholder="Cược cơ bản" />
+    <input type="number" id="maxMult" value="5" placeholder="Số lần gấp" />
+    <button onclick="analyze()">Phân tích</button>
+    <div id="output"></div>
+  </div>
+</div>
+
+<script>
+const VALID_KEYS = ['SUNWIN2025'];
+const STORAGE_KEY = 'sunwin_key';
+
+function verifyKey(){
+  const k = document.getElementById('keyInput').value.trim();
+  if(VALID_KEYS.includes(k)){
+    localStorage.setItem(STORAGE_KEY,k);
+    document.getElementById('splash').classList.add('hidden');
+    document.getElementById('main').classList.remove('hidden');
+  } else {
+    document.getElementById('keyMsg').textContent = 'Key sai!';
+    document.getElementById('keyMsg').style.color = 'red';
+  }
+}
+
+window.onload = () => {
+  if(VALID_KEYS.includes(localStorage.getItem(STORAGE_KEY))){
+    document.getElementById('splash').classList.add('hidden');
+    document.getElementById('main').classList.remove('hidden');
+  }
+};
+
+function analyze(){
+  const raw = document.getElementById('history').value.trim().toUpperCase().split(/\s+/).filter(v=>v==='T'||v==='X');
+  if(!raw.length) return alert('Nhập lịch sử hợp lệ');
+  const base = parseInt(document.getElementById('base').value,10);
+  const stake = parseInt(document.getElementById('stake').value,10);
+  const maxMult = parseInt(document.getElementById('maxMult').value,10);
+  const cT = raw.filter(v=>v==='T').length;
+  const cX = raw.filter(v=>v==='X').length;
+  const pT = (cT+1)/(raw.length+2);
+  const pX = (cX+1)/(raw.length+2);
+  const more = pT>pX?'Tài (T)':'Xỉu (X)';
+  let html = `<p>Tài: ${cT} | Xỉu: ${cX}</p>`;
+  html += `<p>Gợi ý: <span class="highlight">${more}</span> (${(Math.max(pT,pX)*100).toFixed(1)}%)</p>`;
+  let bet = stake;
+  html += `<p>Martingale:</p><ul>`;
+  for(let i=1;i<=maxMult;i++){ html += `<li>Vòng ${i}: ${bet.toLocaleString()} đ</li>`; bet*=2; }
+  html += `</ul>`;
+  document.getElementById('output').innerHTML = html;
+}
+</script>
+
+</body>
+</html>
