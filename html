@@ -1,85 +1,236 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Tool Sunwin 🍁</title>
-<style>
-  body { font-family: Arial, sans-serif; background: #0f111a; color: #eef; margin: 0; padding: 0; }
-  .splash, .main { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-  .hidden { display: none; }
-  .card { background: #1f2334; padding: 20px; border-radius: 10px; max-width: 500px; width: 90%; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-  input, textarea, button { width: 100%; padding: 8px; margin: 5px 0; border-radius: 6px; border: none; }
-  button { background: #6e4fff; color: white; font-weight: bold; cursor: pointer; }
-  .highlight { background: #5a3fff; padding: 2px 6px; border-radius: 4px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Tài Xỉu Sunwin</title>
+    <style>
+        /* Định dạng cơ bản cho toàn bộ trang */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Khung mô phỏng cửa sổ ứng dụng Windows */
+        .window-container {
+            width: 500px;
+            background-color: #d17260; /* Màu nền cam đất tương tự như hình ảnh */
+            border: 1px solid #707070;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* Thanh tiêu đề của cửa sổ ứng dụng */
+        .title-bar {
+            background-color: #ffffff;
+            padding: 6px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #bdc3c7;
+            font-size: 13px;
+        }
+
+        .title-bar-text {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        /* Biểu tượng chiếc lông vũ nhỏ góc trái */
+        .app-icon {
+            width: 14px;
+            height: 14px;
+            opacity: 0.7;
+        }
+
+        /* Các nút điều hướng thu nhỏ, phóng to, đóng cửa sổ */
+        .window-controls {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* Nội dung chính bên trong ứng dụng */
+        .app-content {
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Logo thương hiệu Sunwin ở chính giữa */
+        .logo-sunwin {
+            width: 65px;
+            height: 65px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        /* Bố cục chia 3 cột: Tài | Trung tâm | Xỉu */
+        .main-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        /* Khung hiển thị chữ Tài và Xỉu lớn */
+        .bet-option {
+            flex: 1;
+            font-size: 42px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        /* Khu vực điều khiển nhập liệu ở chính giữa */
+        .center-control {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .input-label {
+            font-size: 16px;
+            color: #ffffff;
+        }
+
+        /* Hộp nhập số phiên */
+        .session-input {
+            width: 160px;
+            padding: 4px 6px;
+            font-size: 16px;
+            border: 1px solid #707070;
+            text-align: center;
+            outline: none;
+        }
+
+        /* Nút Dự đoán */
+        .btn-predict {
+            background-color: #d17260;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 4px 18px;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: inset 0 0 2px rgba(255,255,255,0.5);
+            transition: all 0.2s;
+        }
+
+        .btn-predict:hover {
+            background-color: #b55d4c;
+        }
+
+        /* Vòng tròn kết quả mô phỏng bên dưới chữ Tài và Xỉu */
+        .result-circle {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            margin: 15px auto 0 auto;
+            transition: background-color 0.3s;
+        }
+
+        /* Hiệu ứng khi vòng tròn được kích hoạt kết quả */
+        .circle-active {
+            background-color: #ffeb3b; /* Phát sáng màu vàng khi trúng kết quả */
+            box-shadow: 0 0 10px #ffeb3b;
+        }
+    </style>
 </head>
 <body>
 
-<div id="splash" class="splash">
-  <div class="card">
-    <h2>🍁 Tool Sunwin</h2>
-    <p>Nhập key để kích hoạt:</p>
-    <input id="keyInput" placeholder="Nhập key..." />
-    <button onclick="verifyKey()">Kích hoạt</button>
-    <p id="keyMsg" style="font-size:14px;color:#aaa;">Key mẫu: SUNWIN2025</p>
-  </div>
-</div>
+<div class="window-container">
+    <!-- Thanh tiêu đề ứng dụng -->
+    <div class="title-bar">
+        <div class="title-bar-text">
+            <!-- Biểu tượng chiếc lông vũ tương tự thư viện Tkinter/Python -->
+            <svg class="app-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.866 14.85c-.078.267-.32.4-.725.4-.416 0-.742-.164-.977-.492a2.3 2.3 0 0 1-.353-.984c0-.648.167-1.464.502-2.449.335-.984.773-2.022 1.314-3.112.541-1.09 1.144-2.14 1.81-3.149C5.105 4.053 5.766 3.125 6.42 2.28c.174-.226.377-.339.609-.339.145 0 .285.05.42.148.135.1.2.227.2.383 0 .422-.162 1.053-.487 1.894-.325.842-.741 1.764-1.248 2.766-.507 1.002-1.054 2.012-1.642 3.03-.588 1.018-1.127 1.947-1.616 2.784a30.825 30.825 0 0 0-.79 1.901Z"/>
+            </svg>
+            Tool Tài Xỉu
+        </div>
+        <div class="window-controls">
+            <span>&#9472;</span>
+            <span>&#9633;</span>
+            <span style="font-weight: bold;">&times;</span>
+        </div>
+    </div>
 
-<div id="main" class="main hidden">
-  <div class="card">
-    <h2>Tool Tài Xỉu 🍁</h2>
-    <textarea id="history" placeholder="Nhập lịch sử (T hoặc X mỗi dòng)..."></textarea>
-    <input type="number" id="base" value="20000" placeholder="Vốn gốc" />
-    <input type="number" id="stake" value="1000" placeholder="Cược cơ bản" />
-    <input type="number" id="maxMult" value="5" placeholder="Số lần gấp" />
-    <button onclick="analyze()">Phân tích</button>
-    <div id="output"></div>
-  </div>
+    <!-- Nội dung chính -->
+    <div class="app-content">
+        <!-- Ảnh logo Sunwin -->
+        <img class="logo-sunwin" src="https://venga.in" alt="Sunwin Logo">
+
+        <div class="main-layout">
+            <!-- Cột bên trái: Tài -->
+            <div class="bet-option">
+                Tài
+                <div class="result-circle" id="circle-tai"></div>
+            </div>
+
+            <!-- Cột giữa: Khu vực điều khiển -->
+            <div class="center-control">
+                <div class="brand-name">SunWin</div>
+                <div class="input-label">Nhập số phiên:</div>
+                <input type="text" id="session-input" class="session-input" placeholder="Ví dụ: #12345">
+                <button class="btn-predict" onclick="runPrediction()">Dự đoán</button>
+            </div>
+
+            <!-- Cột bên phải: Xỉu -->
+            <div class="bet-option">
+                Xỉu
+                <div class="result-circle" id="circle-xiu"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-const VALID_KEYS = ['SUNWIN2025'];
-const STORAGE_KEY = 'sunwin_key';
+    function runPrediction() {
+        const inputVal = document.getElementById('session-input').value.trim();
+        const circleTai = document.getElementById('circle-tai');
+        const circleXiu = document.getElementById('circle-xiu');
 
-function verifyKey(){
-  const k = document.getElementById('keyInput').value.trim();
-  if(VALID_KEYS.includes(k)){
-    localStorage.setItem(STORAGE_KEY,k);
-    document.getElementById('splash').classList.add('hidden');
-    document.getElementById('main').classList.remove('hidden');
-  } else {
-    document.getElementById('keyMsg').textContent = 'Key sai!';
-    document.getElementById('keyMsg').style.color = 'red';
-  }
-}
+        if (!inputVal) {
+            alert('Vui lòng nhập số phiên trước khi dự đoán!');
+            return;
+        }
 
-window.onload = () => {
-  if(VALID_KEYS.includes(localStorage.getItem(STORAGE_KEY))){
-    document.getElementById('splash').classList.add('hidden');
-    document.getElementById('main').classList.remove('hidden');
-  }
-};
+        // Đặt lại trạng thái ban đầu của các vòng tròn
+        circleTai.classList.remove('circle-active');
+        circleXiu.classList.remove('circle-active');
 
-function analyze(){
-  const raw = document.getElementById('history').value.trim().toUpperCase().split(/\s+/).filter(v=>v==='T'||v==='X');
-  if(!raw.length) return alert('Nhập lịch sử hợp lệ');
-  const base = parseInt(document.getElementById('base').value,10);
-  const stake = parseInt(document.getElementById('stake').value,10);
-  const maxMult = parseInt(document.getElementById('maxMult').value,10);
-  const cT = raw.filter(v=>v==='T').length;
-  const cX = raw.filter(v=>v==='X').length;
-  const pT = (cT+1)/(raw.length+2);
-  const pX = (cX+1)/(raw.length+2);
-  const more = pT>pX?'Tài (T)':'Xỉu (X)';
-  let html = `<p>Tài: ${cT} | Xỉu: ${cX}</p>`;
-  html += `<p>Gợi ý: <span class="highlight">${more}</span> (${(Math.max(pT,pX)*100).toFixed(1)}%)</p>`;
-  let bet = stake;
-  html += `<p>Martingale:</p><ul>`;
-  for(let i=1;i<=maxMult;i++){ html += `<li>Vòng ${i}: ${bet.toLocaleString()} đ</li>`; bet*=2; }
-  html += `</ul>`;
-  document.getElementById('output').innerHTML = html;
-}
+        // Giả lập tính toán kết quả ngẫu nhiên (50% Tài / 50% Xỉu)
+        const isTai = Math.random() < 0.5;
+
+        setTimeout(() => {
+            if (isTai) {
+                circleTai.classList.add('circle-active');
+            } else {
+                circleXiu.classList.add('circle-active');
+            }
+        }, 300); // Tạo hiệu ứng trễ nhẹ giống như phần mềm đang xử lý dữ liệu
+    }
 </script>
 
 </body>
