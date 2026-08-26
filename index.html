@@ -1,353 +1,466 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Tài Xỉu Sunwin</title>
-    <style>
-        /* Định dạng cơ bản cho toàn bộ trang */
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sunwin AI - Tool Test Tài Xỉu</title>
 
-        /* Khung mô phỏng cửa sổ ứng dụng Windows */
-        .window-container {
-            width: 500px;
-            background-color: #d17260; /* Màu nền cam đất tương tự như hình ảnh */
-            border: 1px solid #707070;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Thanh tiêu đề của cửa sổ ứng dụng */
-        .title-bar {
-            background-color: #ffffff;
-            padding: 6px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #bdc3c7;
-            font-size: 13px;
-        }
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 20%, #073c86 0, transparent 25%),
+        radial-gradient(circle at 80% 80%, #31005e 0, transparent 25%),
+        #030712;
+      padding: 20px;
+    }
 
-        .title-bar-text {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 500;
-        }
+    .container {
+      width: min(520px, 100%);
+      margin: auto;
+    }
 
-        /* Biểu tượng chiếc lông vũ nhỏ góc trái */
-        .app-icon {
-            width: 14px;
-            height: 14px;
-            opacity: 0.7;
-        }
+    .header {
+      text-align: center;
+      padding: 20px 10px;
+    }
 
-        /* Các nút điều hướng thu nhỏ, phóng to, đóng cửa sổ */
-        .window-controls {
-            display: flex;
-            gap: 15px;
-            font-size: 14px;
-            color: #555;
-            cursor: pointer;
-        }
+    .logo {
+      width: 95px;
+      height: 95px;
+      margin: auto;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      font-weight: bold;
+      background: linear-gradient(145deg, #071a35, #0878ff);
+      border: 2px solid #28a9ff;
+      box-shadow: 0 0 30px #007bff;
+    }
 
-        /* Nội dung chính bên trong ứng dụng */
-        .app-content {
-            padding: 20px 30px 30px 30px;
-            text-align: center;
-            position: relative;
-        }
+    h1 {
+      margin-top: 15px;
+      font-size: 27px;
+      color: #fff;
+      text-shadow: 0 0 12px #168cff;
+    }
 
-        /* Logo thương hiệu Sunwin ở chính giữa */
-        .logo-sunwin {
-            width: 65px;
-            height: 65px;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            object-fit: cover;
-        }
+    .subtitle {
+      margin-top: 7px;
+      color: #91bfff;
+    }
 
-        /* Bố cục chia 3 cột: Tài | Trung tâm | Xỉu */
-        .main-layout {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 10px;
-            gap: 10px;
-        }
+    .card {
+      background: rgba(15, 23, 42, .94);
+      border: 1px solid #1857a5;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 0 25px rgba(0, 123, 255, .22);
+      margin-bottom: 18px;
+    }
 
-        /* Khung hiển thị chữ Tài và Xỉu lớn */
-        .bet-option {
-            flex: 1;
-            font-size: 36px;
-            font-weight: bold;
-            color: #000000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 150px;
-        }
+    .title {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
 
-        /* Khu vực điều khiển nhập liệu ở chính giữa */
-        .center-control {
-            flex: 1.6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
 
-        .brand-name {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 5px;
-        }
+    .value {
+      font-weight: bold;
+      color: #65b5ff;
+    }
 
-        .input-label {
-            font-size: 14px;
-            color: #ffffff;
-        }
+    .prediction {
+      margin: 22px 0;
+      text-align: center;
+      padding: 25px 15px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #061d42, #092d68);
+      border: 2px solid #168cff;
+      box-shadow: 0 0 25px rgba(0, 140, 255, .3);
+    }
 
-        /* Hộp nhập số phiên */
-        .session-input {
-            width: 160px;
-            padding: 6px 8px;
-            font-size: 14px;
-            border: 1px solid #707070;
-            text-align: center;
-            outline: none;
-            border-radius: 4px;
-        }
+    .prediction small {
+      display: block;
+      color: #a8c9f5;
+      margin-bottom: 8px;
+    }
 
-        /* Nút Dự đoán */
-        .btn-predict {
-            background-color: #d17260;
-            color: #ffffff;
-            border: 1px solid #ffffff;
-            padding: 6px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            box-shadow: inset 0 0 2px rgba(255,255,255,0.5);
-            transition: all 0.2s;
-            border-radius: 4px;
-        }
+    #prediction {
+      font-size: 48px;
+      font-weight: 900;
+      text-shadow: 0 0 20px currentColor;
+    }
 
-        .btn-predict:hover {
-            background-color: #b55d4c;
-        }
+    .tai {
+      color: #ff5c5c;
+    }
 
-        /* Vòng tròn kết quả mô phỏng bên dưới chữ Tài và Xỉu */
-        .result-circle {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #000000;
-            border-radius: 50%;
-            margin: 15px auto 0 auto;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
+    .xiu {
+      color: #45a9ff;
+    }
 
-        /* Hiệu ứng khi vòng tròn được kích hoạt kết quả */
-        .circle-active {
-            background-color: #ffeb3b; /* Phát sáng màu vàng khi trúng kết quả */
-            box-shadow: 0 0 10px #ffeb3b;
-        }
+    .confidence {
+      margin-top: 10px;
+      color: #d9eaff;
+    }
 
-        /* Analysis area (martingale) */
-        .analysis {
-            margin-top: 12px;
-            background: rgba(255,255,255,0.06);
-            padding: 10px;
-            border-radius: 6px;
-            width: 100%;
-            color: #fff;
-            box-sizing: border-box;
-        }
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 15px;
+      padding: 17px;
+      margin-top: 10px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
 
-        .analysis textarea, .analysis input { width: 100%; margin: 6px 0; padding: 6px; border-radius: 4px; border: 1px solid #777; }
-        .analysis button { width: 100%; padding: 8px; margin-top: 6px; border-radius: 4px; border: none; background: #6e4fff; color: #fff; cursor: pointer; }
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+    }
 
-        /* Splash overlay for key activation */
-        #splash {
-            position: absolute;
-            inset: 0;
-            background: rgba(15,17,26,0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-        }
+    .new-session {
+      background: linear-gradient(90deg, #0878ff, #00b7ff);
+      box-shadow: 0 0 20px rgba(0, 160, 255, .35);
+    }
 
-        .splash-card {
-            background: #1f2334;
-            padding: 18px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 420px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-            text-align: center;
-        }
+    .tai-btn {
+      background: #b83232;
+    }
 
-        .splash-card input { padding: 8px; width: 100%; border-radius: 6px; border: none; margin-top: 10px; }
-        .splash-card button { margin-top: 10px; padding: 8px 12px; border-radius: 6px; background: #6e4fff; border: none; color: #fff; cursor: pointer; }
-        .splash-card p { color: #aaa; margin: 8px 0 0 0; font-size: 13px; }
+    .xiu-btn {
+      background: #2468bb;
+    }
 
-    </style>
+    .result {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      min-height: 35px;
+      margin-top: 16px;
+    }
+
+    .win {
+      color: #38ff88;
+      text-shadow: 0 0 12px #00ff66;
+    }
+
+    .lose {
+      color: #ff4c5c;
+      text-shadow: 0 0 12px #ff0033;
+    }
+
+    .waiting {
+      color: #ffd45c;
+    }
+
+    .history-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .history {
+      max-height: 230px;
+      overflow-y: auto;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 11px 5px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .badge-tai {
+      background: rgba(255, 65, 65, .18);
+      color: #ff7070;
+    }
+
+    .badge-xiu {
+      background: rgba(60, 150, 255, .18);
+      color: #65b5ff;
+    }
+
+    .note {
+      text-align: center;
+      color: #7892b8;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="window-container" id="app">
-    <!-- Splash overlay: key activation -->
-    <div id="splash">
-        <div class="splash-card">
-            <h3 style="margin:0 0 6px 0; color:#fff;">🍁 Tool Sunwin</h3>
-            <div style="color:#ddd; font-size:14px;">Nhập key để kích hoạt:</div>
-            <input id="keyInput" placeholder="Nhập key..." />
-            <button onclick="verifyKey()">Kích hoạt</button>
-            <p id="keyMsg">Key mẫu: SUNWIN2025</p>
-        </div>
+<div class="container">
+
+  <div class="header">
+    <div class="logo">AI</div>
+    <h1>🎯 SUNWIN AI TEST</h1>
+    <div class="subtitle">Tool mô phỏng Tài Xỉu</div>
+  </div>
+
+  <div class="card">
+
+    <div class="title">🤖 DỰ ĐOÁN PHIÊN MỚI</div>
+
+    <div class="row">
+      <span>📌 Phiên</span>
+      <span class="value" id="session">3226790</span>
     </div>
 
-    <!-- Thanh tiêu đề ứng dụng -->
-    <div class="title-bar">
-        <div class="title-bar-text">
-            <svg class="app-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2.866 14.85c-.078.267-.32.4-.725.4-.416 0-.742-.164-.977-.492a2.3 2.3 0 0 1-.353-.984c0-.648.167-1.464.502-2.449.335-.984.773-2.022 1.314-3.112.541-1.09 1.144-2.14 1.81-3.149C5.105 4.053 5.766 3.125 6.42 2.28c.174-.226.377-.339.609-.339.145 0 .285.05.42.148.135.1.2.227.2.383 0 .422-.162 1.053-.487 1.894-.325.842-.741 1.764-1.248 2.766-.507 1.002-1.054 2.012-1.642 3.03-.588 1.018-1.127 1.947-1.616 2.784a30.825 30.825 0 0 0-.79 1.901Z"/>
-            </svg>
-            Tool Tài Xỉu
-        </div>
-        <div class="window-controls">
-            <span>&#9472;</span>
-            <span>&#9633;</span>
-            <span style="font-weight: bold;">&times;</span>
-        </div>
+    <div class="row">
+      <span>⚡ Trạng thái</span>
+      <span class="value" id="status">Đang chờ</span>
     </div>
 
-    <!-- Nội dung chính -->
-    <div class="app-content">
-        <img class="logo-sunwin" src="https://venga.in" alt="Sunwin Logo">
+    <div class="prediction">
+      <small>TÍN HIỆU MÔ PHỎNG</small>
 
-        <div class="main-layout">
-            <!-- Cột bên trái: Tài -->
-            <div class="bet-option">
-                Tài
-                <div class="result-circle" id="circle-tai"></div>
-            </div>
+      <div id="prediction" class="xiu">
+        XỈU
+      </div>
 
-            <!-- Cột giữa: Khu vực điều khiển -->
-            <div class="center-control">
-                <div class="brand-name">SunWin</div>
-                <div class="input-label">Nhập số phiên:</div>
-                <input type="text" id="session-input" class="session-input" placeholder="Ví dụ: #12345">
-                <button class="btn-predict" onclick="runPrediction()">Dự đoán</button>
-
-                <!-- Analysis / Martingale section -->
-                <div class="analysis">
-                    <div style="font-weight:600; margin-bottom:6px;">Phân tích Martingale</div>
-                    <textarea id="history" rows="4" placeholder="Nhập lịch sử (T hoặc X, cách nhau bởi dấu cách hoặc xuống dòng)"></textarea>
-                    <div style="display:flex; gap:8px; margin-top:6px;">
-                        <input type="number" id="base" value="20000" placeholder="Vốn gốc" />
-                        <input type="number" id="stake" value="1000" placeholder="Cược" />
-                        <input type="number" id="maxMult" value="5" placeholder="Số lần" />
-                    </div>
-                    <button onclick="analyze()">Phân tích</button>
-                    <div id="output" style="margin-top:8px; color:#fff; font-size:14px;"></div>
-                </div>
-            </div>
-
-            <!-- Cột bên phải: Xỉu -->
-            <div class="bet-option">
-                Xỉu
-                <div class="result-circle" id="circle-xiu"></div>
-            </div>
-        </div>
+      <div class="confidence">
+        Độ tin cậy: <b id="confidence">50%</b>
+      </div>
     </div>
+
+    <button class="new-session" onclick="newSession()">
+      🔄 TẠO PHIÊN MỚI
+    </button>
+
+    <div style="margin-top:20px">
+      <div class="title" style="font-size:17px">
+        🎲 Nhập kết quả thực tế để kiểm tra
+      </div>
+
+      <button class="tai-btn" onclick="checkResult('TÀI')">
+        🔴 KẾT QUẢ TÀI
+      </button>
+
+      <button class="xiu-btn" onclick="checkResult('XỈU')">
+        🔵 KẾT QUẢ XỈU
+      </button>
+    </div>
+
+    <div id="result" class="result waiting">
+      Chưa có kết quả
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="history-title">
+      📊 LỊCH SỬ PHIÊN TEST
+    </div>
+
+    <div id="history" class="history">
+      <div style="text-align:center;color:#7186a5">
+        Chưa có dữ liệu
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    ⚠️ Đây là công cụ mô phỏng phục vụ kiểm thử giao diện.
+    Tín hiệu Tài/Xỉu được tạo ngẫu nhiên và không dự đoán
+    được kết quả của hệ thống Sunwin thực tế.
+  </div>
+
 </div>
 
 <script>
-// Key activation
-const VALID_KEYS = ['SUNWIN2025'];
-const STORAGE_KEY = 'sunwin_key';
 
-function verifyKey(){
-  const k = document.getElementById('keyInput').value.trim();
-  const msg = document.getElementById('keyMsg');
-  if(VALID_KEYS.includes(k)){
-    localStorage.setItem(STORAGE_KEY,k);
-    document.getElementById('splash').style.display = 'none';
-  } else {
-    msg.textContent = 'Key sai!';
-    msg.style.color = 'red';
+  let session = 3226790;
+  let currentPrediction = null;
+  let history = [];
+
+  function randomPrediction() {
+
+    return Math.random() < 0.5
+      ? "TÀI"
+      : "XỈU";
+
   }
-}
 
-window.onload = () => {
-  if(VALID_KEYS.includes(localStorage.getItem(STORAGE_KEY))){
-    document.getElementById('splash').style.display = 'none';
-  }
-};
+  function newSession() {
 
-// Prediction UI
-function runPrediction() {
-    const inputVal = document.getElementById('session-input').value.trim();
-    const circleTai = document.getElementById('circle-tai');
-    const circleXiu = document.getElementById('circle-xiu');
+    session++;
 
-    if (!inputVal) {
-        alert('Vui lòng nhập số phiên trước khi dự đoán!');
-        return;
-    }
+    currentPrediction = randomPrediction();
 
-    // Reset
-    circleTai.classList.remove('circle-active');
-    circleXiu.classList.remove('circle-active');
+    const confidence =
+      Math.floor(Math.random() * 16) + 50;
 
-    // Simple deterministic-ish pseudo-random based on session string to make results repeatable per session id
-    let hash = 0;
-    for(let i=0;i<inputVal.length;i++){ hash = ((hash<<5)-hash) + inputVal.charCodeAt(i); hash |= 0; }
-    const r = (Math.abs(hash) % 100) / 100; // 0..0.99
-    const isTai = r < 0.5;
+    document.getElementById("session").textContent =
+      session;
+
+    document.getElementById("status").textContent =
+      "Đang phân tích...";
+
+    const prediction =
+      document.getElementById("prediction");
+
+    prediction.textContent =
+      currentPrediction;
+
+    prediction.className =
+      currentPrediction === "TÀI"
+        ? "tai"
+        : "xiu";
+
+    document.getElementById("confidence").textContent =
+      confidence + "%";
+
+    document.getElementById("result").textContent =
+      "⏳ Đang chờ kết quả";
+
+    document.getElementById("result").className =
+      "result waiting";
 
     setTimeout(() => {
-        if (isTai) {
-            circleTai.classList.add('circle-active');
-        } else {
-            circleXiu.classList.add('circle-active');
-        }
-    }, 300);
-}
 
-// Martingale analyzer (from original file)
-function analyze(){
-  const raw = document.getElementById('history').value.trim().toUpperCase().split(/\s+/).filter(v=>v==='T'||v==='X');
-  if(!raw.length) return alert('Nhập lịch sử hợp lệ');
-  const base = parseInt(document.getElementById('base').value,10);
-  const stake = parseInt(document.getElementById('stake').value,10);
-  const maxMult = parseInt(document.getElementById('maxMult').value,10);
-  const cT = raw.filter(v=>v==='T').length;
-  const cX = raw.filter(v=>v==='X').length;
-  const pT = (cT+1)/(raw.length+2);
-  const pX = (cX+1)/(raw.length+2);
-  const more = pT>pX?'Tài (T)':'Xỉu (X)';
-  let html = `<p style="margin:0 0 6px 0;">Tài: ${cT} | Xỉu: ${cX}</p>`;
-  html += `<p style="margin:0 0 6px 0;">Gợi ý: <strong style=\"background:#5a3fff;padding:2px 6px;border-radius:4px;\">${more}</strong> (${(Math.max(pT,pX)*100).toFixed(1)}%)</p>`;
-  let bet = stake;
-  html += `<p style="margin:6px 0 4px 0;">Martingale:</p><ul style="text-align:left;padding-left:18px;margin:0;">`;
-  for(let i=1;i<=maxMult;i++){ html += `<li>Vòng ${i}: ${bet.toLocaleString()} đ</li>`; bet*=2; }
-  html += `</ul>`;
-  document.getElementById('output').innerHTML = html;
-}
+      document.getElementById("status").textContent =
+        "Đã có tín hiệu";
+
+    }, 700);
+
+  }
+
+  function checkResult(actual) {
+
+    if (!currentPrediction) {
+
+      document.getElementById("result").textContent =
+        "⚠️ Hãy tạo phiên mới trước";
+
+      return;
+
+    }
+
+    const result =
+      document.getElementById("result");
+
+    const win =
+      actual === currentPrediction;
+
+    if (win) {
+
+      result.textContent =
+        "🎉 THẮNG — Tín hiệu trùng kết quả";
+
+      result.className =
+        "result win";
+
+    } else {
+
+      result.textContent =
+        "❌ THUA — Tín hiệu không trùng";
+
+      result.className =
+        "result lose";
+
+    }
+
+    history.unshift({
+      session: session,
+      prediction: currentPrediction,
+      actual: actual,
+      win: win
+    });
+
+    if (history.length > 20) {
+      history.pop();
+    }
+
+    renderHistory();
+
+  }
+
+  function renderHistory() {
+
+    const box =
+      document.getElementById("history");
+
+    if (history.length === 0) {
+
+      box.innerHTML =
+        '<div style="text-align:center;color:#7186a5">Chưa có dữ liệu</div>';
+
+      return;
+
+    }
+
+    box.innerHTML = history.map(item => {
+
+      const badge =
+        item.actual === "TÀI"
+          ? "badge badge-tai"
+          : "badge badge-xiu";
+
+      const outcome =
+        item.win
+          ? '<span class="win">THẮNG</span>'
+          : '<span class="lose">THUA</span>';
+
+      return `
+        <div class="history-item">
+          <span>
+            #${item.session}
+          </span>
+
+          <span>
+            <b>${item.prediction}</b>
+            →
+            <span class="${badge}">
+              ${item.actual}
+            </span>
+          </span>
+
+          <span>
+            ${outcome}
+          </span>
+        </div>
+      `;
+
+    }).join("");
+
+  }
+
 </script>
 
 </body>
