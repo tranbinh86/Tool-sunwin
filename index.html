@@ -1,465 +1,770 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sunwin AI - Tool Test Tài Xỉu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUNWIN AI 2026 - Tài Xỉu Test</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #020b05;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+    width: 100%;
+    max-width: 1050px;
+    margin: auto;
+    padding: 18px;
+}
+
+.header {
+    text-align: center;
+    padding: 18px 10px 22px;
+}
+
+.logo {
+    display: inline-flex;
+    width: 70px;
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #00ff70;
+    border-radius: 50%;
+    color: #00ff70;
+    font-size: 30px;
+    font-weight: 900;
+    box-shadow: 0 0 25px rgba(0,255,100,.4);
+}
+
+h1 {
+    margin: 12px 0 5px;
+    color: #00ff70;
+    font-size: clamp(25px, 6vw, 42px);
+    text-shadow: 0 0 15px #00ff70;
+}
+
+.subtitle {
+    color: #8bb99a;
+}
+
+.panel {
+    background: #031208;
+    border: 1px solid #123d20;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0,255,90,.08);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid #123d20;
+}
+
+.stat {
+    padding: 17px 10px;
+    text-align: center;
+    border-right: 1px solid #123d20;
+}
+
+.stat:last-child {
+    border-right: 0;
+}
+
+.stat-label {
+    display: block;
+    color: #789482;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.stat-value {
+    color: #00ff70;
+    font-weight: 800;
+    font-size: 22px;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 18px;
+}
+
+button {
+    border: 0;
+    border-radius: 12px;
+    padding: 16px;
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.new-btn {
+    grid-column: 1 / -1;
+    background: linear-gradient(90deg,#007d35,#00d95c);
+}
+
+.tai-btn {
+    background: #7e2424;
+}
+
+.xiu-btn {
+    background: #174e83;
+}
+
+.signal {
+    margin: 0 18px 18px;
+    padding: 20px;
+    border: 1px solid #164c28;
+    border-radius: 14px;
+    background: #020d06;
+    text-align: center;
+}
+
+.signal-title {
+    color: #8cae96;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.signal-value {
+    margin: 8px 0;
+    font-size: 42px;
+    font-weight: 900;
+}
+
+.signal-value.tai {
+    color: #ff5a68;
+    text-shadow: 0 0 16px rgba(255,50,70,.6);
+}
+
+.signal-value.xiu {
+    color: #43aaff;
+    text-shadow: 0 0 16px rgba(40,150,255,.6);
+}
+
+.result {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.table-title {
+    padding: 18px 20px;
+    border-top: 1px solid #123d20;
+    color: #00ff70;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+}
+
+th {
+    background: #07180c;
+    color: #82a68e;
+    font-size: 14px;
+    text-align: left;
+    padding: 15px 14px;
+    white-space: nowrap;
+}
+
+td {
+    padding: 14px;
+    border-top: 1px solid #12321d;
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+tr:hover td {
+    background: rgba(0,255,100,.025);
+}
+
+.session {
+    color: #eee;
+    font-weight: 700;
+}
+
+.tai {
+    color: #ff6670;
+}
+
+.xiu {
+    color: #4aaeff;
+}
+
+.correct {
+    color: #00ff70;
+    font-weight: 900;
+}
+
+.wrong {
+    color: #ff4055;
+    font-weight: 900;
+}
+
+.pattern {
+    color: #ddd;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.footer {
+    text-align: center;
+    color: #536b5a;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 18px 10px;
+}
+
+@media(max-width:600px) {
+    .app {
+        padding: 8px;
     }
 
-    body {
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      background:
-        radial-gradient(circle at 20% 20%, #073c86 0, transparent 25%),
-        radial-gradient(circle at 80% 80%, #31005e 0, transparent 25%),
-        #030712;
-      padding: 20px;
+    .stats {
+        grid-template-columns: 1fr;
     }
 
-    .container {
-      width: min(520px, 100%);
-      margin: auto;
+    .stat {
+        border-right: 0;
+        border-bottom: 1px solid #123d20;
     }
 
-    .header {
-      text-align: center;
-      padding: 20px 10px;
+    .stat:last-child {
+        border-bottom: 0;
     }
 
-    .logo {
-      width: 95px;
-      height: 95px;
-      margin: auto;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 38px;
-      font-weight: bold;
-      background: linear-gradient(145deg, #071a35, #0878ff);
-      border: 2px solid #28a9ff;
-      box-shadow: 0 0 30px #007bff;
+    .controls {
+        grid-template-columns: 1fr;
     }
 
-    h1 {
-      margin-top: 15px;
-      font-size: 27px;
-      color: #fff;
-      text-shadow: 0 0 12px #168cff;
+    .new-btn {
+        grid-column: auto;
     }
-
-    .subtitle {
-      margin-top: 7px;
-      color: #91bfff;
-    }
-
-    .card {
-      background: rgba(15, 23, 42, .94);
-      border: 1px solid #1857a5;
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: 0 0 25px rgba(0, 123, 255, .22);
-      margin-bottom: 18px;
-    }
-
-    .title {
-      font-size: 21px;
-      font-weight: bold;
-      margin-bottom: 18px;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 13px 0;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-    }
-
-    .value {
-      font-weight: bold;
-      color: #65b5ff;
-    }
-
-    .prediction {
-      margin: 22px 0;
-      text-align: center;
-      padding: 25px 15px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, #061d42, #092d68);
-      border: 2px solid #168cff;
-      box-shadow: 0 0 25px rgba(0, 140, 255, .3);
-    }
-
-    .prediction small {
-      display: block;
-      color: #a8c9f5;
-      margin-bottom: 8px;
-    }
-
-    #prediction {
-      font-size: 48px;
-      font-weight: 900;
-      text-shadow: 0 0 20px currentColor;
-    }
-
-    .tai {
-      color: #ff5c5c;
-    }
-
-    .xiu {
-      color: #45a9ff;
-    }
-
-    .confidence {
-      margin-top: 10px;
-      color: #d9eaff;
-    }
-
-    button {
-      width: 100%;
-      border: 0;
-      border-radius: 15px;
-      padding: 17px;
-      margin-top: 10px;
-      color: #fff;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.12);
-    }
-
-    .new-session {
-      background: linear-gradient(90deg, #0878ff, #00b7ff);
-      box-shadow: 0 0 20px rgba(0, 160, 255, .35);
-    }
-
-    .tai-btn {
-      background: #b83232;
-    }
-
-    .xiu-btn {
-      background: #2468bb;
-    }
-
-    .result {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      min-height: 35px;
-      margin-top: 16px;
-    }
-
-    .win {
-      color: #38ff88;
-      text-shadow: 0 0 12px #00ff66;
-    }
-
-    .lose {
-      color: #ff4c5c;
-      text-shadow: 0 0 12px #ff0033;
-    }
-
-    .waiting {
-      color: #ffd45c;
-    }
-
-    .history-title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .history {
-      max-height: 230px;
-      overflow-y: auto;
-    }
-
-    .history-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 11px 5px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .badge {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 13px;
-    }
-
-    .badge-tai {
-      background: rgba(255, 65, 65, .18);
-      color: #ff7070;
-    }
-
-    .badge-xiu {
-      background: rgba(60, 150, 255, .18);
-      color: #65b5ff;
-    }
-
-    .note {
-      text-align: center;
-      color: #7892b8;
-      font-size: 12px;
-      line-height: 1.5;
-      margin-top: 20px;
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-  <div class="header">
-    <div class="logo">AI</div>
-    <h1>🎯 SUNWIN AI TEST</h1>
-    <div class="subtitle">Tool mô phỏng Tài Xỉu</div>
-  </div>
-
-  <div class="card">
-
-    <div class="title">🤖 DỰ ĐOÁN PHIÊN MỚI</div>
-
-    <div class="row">
-      <span>📌 Phiên</span>
-      <span class="value" id="session">3226790</span>
+    <div class="header">
+        <div class="logo">VN</div>
+        <h1>SUNWIN AI 2026</h1>
+        <div class="subtitle">
+            🎯 TOOL TEST TÀI XỈU • AI SIMULATION
+        </div>
     </div>
 
-    <div class="row">
-      <span>⚡ Trạng thái</span>
-      <span class="value" id="status">Đang chờ</span>
+    <div class="panel">
+
+        <div class="stats">
+
+            <div class="stat">
+                <span class="stat-label">PHIÊN HIỆN TẠI</span>
+                <span class="stat-value" id="currentSession">
+                    3231504
+                </span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label">TỔNG PHIÊN</span>
+                <span class="stat-value" id="total">
+                    0
+                </span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-label">TỶ LỆ ĐÚNG</span>
+                <span class="stat-value" id="accuracy">
+                    0%
+                </span>
+            </div>
+
+        </div>
+
+        <div class="controls">
+
+            <button class="new-btn" onclick="newSession()">
+                🔄 TẠO PHIÊN MỚI
+            </button>
+
+            <button class="tai-btn" onclick="setActual('Tài')">
+                🔴 KẾT QUẢ TÀI
+            </button>
+
+            <button class="xiu-btn" onclick="setActual('Xỉu')">
+                🔵 KẾT QUẢ XỈU
+            </button>
+
+        </div>
+
+        <div class="signal">
+
+            <div class="signal-title">
+                TÍN HIỆU MÔ PHỎNG PHIÊN HIỆN TẠI
+            </div>
+
+            <div id="prediction"
+                 class="signal-value xiu">
+                Xỉu
+            </div>
+
+            <div id="result" class="result">
+                ⏳ Đang chờ kết quả
+            </div>
+
+        </div>
+
+        <div class="table-title">
+            📊 LỊCH SỬ DỰ ĐOÁN
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>PHIÊN</th>
+                        <th>DỰ ĐOÁN</th>
+                        <th>THỰC TẾ</th>
+                        <th>TRẠNG THÁI</th>
+                        <th>CHUỖI</th>
+                    </tr>
+                </thead>
+
+                <tbody id="history"></tbody>
+
+            </table>
+
+        </div>
+
     </div>
 
-    <div class="prediction">
-      <small>TÍN HIỆU MÔ PHỎNG</small>
-
-      <div id="prediction" class="xiu">
-        XỈU
-      </div>
-
-      <div class="confidence">
-        Độ tin cậy: <b id="confidence">50%</b>
-      </div>
+    <div class="footer">
+        ⚠️ Chế độ TEST/MÔ PHỎNG. Tín hiệu được tạo ngẫu nhiên,
+        không phải dự đoán chắc chắn kết quả Sunwin thực tế.
     </div>
-
-    <button class="new-session" onclick="newSession()">
-      🔄 TẠO PHIÊN MỚI
-    </button>
-
-    <div style="margin-top:20px">
-      <div class="title" style="font-size:17px">
-        🎲 Nhập kết quả thực tế để kiểm tra
-      </div>
-
-      <button class="tai-btn" onclick="checkResult('TÀI')">
-        🔴 KẾT QUẢ TÀI
-      </button>
-
-      <button class="xiu-btn" onclick="checkResult('XỈU')">
-        🔵 KẾT QUẢ XỈU
-      </button>
-    </div>
-
-    <div id="result" class="result waiting">
-      Chưa có kết quả
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <div class="history-title">
-      📊 LỊCH SỬ PHIÊN TEST
-    </div>
-
-    <div id="history" class="history">
-      <div style="text-align:center;color:#7186a5">
-        Chưa có dữ liệu
-      </div>
-    </div>
-
-  </div>
-
-  <div class="note">
-    ⚠️ Đây là công cụ mô phỏng phục vụ kiểm thử giao diện.
-    Tín hiệu Tài/Xỉu được tạo ngẫu nhiên và không dự đoán
-    được kết quả của hệ thống Sunwin thực tế.
-  </div>
 
 </div>
 
 <script>
 
-  let session = 3226790;
-  let currentPrediction = null;
-  let history = [];
+let currentSession = 3231504;
 
-  function randomPrediction() {
+let currentPrediction = "Xỉu";
+
+let history = [];
+
+
+// ================================
+// TẠO TÍN HIỆU NGẪU NHIÊN
+// ================================
+
+function randomPrediction() {
 
     return Math.random() < 0.5
-      ? "TÀI"
-      : "XỈU";
+        ? "Tài"
+        : "Xỉu";
 
-  }
+}
 
-  function newSession() {
 
-    session++;
+// ================================
+// TẠO CHUỖI T/X MÔ PHỎNG
+// ================================
 
-    currentPrediction = randomPrediction();
+function generatePattern() {
 
-    const confidence =
-      Math.floor(Math.random() * 16) + 50;
+    let pattern = "";
 
-    document.getElementById("session").textContent =
-      session;
+    for (let i = 0; i < 9; i++) {
 
-    document.getElementById("status").textContent =
-      "Đang phân tích...";
-
-    const prediction =
-      document.getElementById("prediction");
-
-    prediction.textContent =
-      currentPrediction;
-
-    prediction.className =
-      currentPrediction === "TÀI"
-        ? "tai"
-        : "xiu";
-
-    document.getElementById("confidence").textContent =
-      confidence + "%";
-
-    document.getElementById("result").textContent =
-      "⏳ Đang chờ kết quả";
-
-    document.getElementById("result").className =
-      "result waiting";
-
-    setTimeout(() => {
-
-      document.getElementById("status").textContent =
-        "Đã có tín hiệu";
-
-    }, 700);
-
-  }
-
-  function checkResult(actual) {
-
-    if (!currentPrediction) {
-
-      document.getElementById("result").textContent =
-        "⚠️ Hãy tạo phiên mới trước";
-
-      return;
+        pattern += Math.random() < 0.5
+            ? "T"
+            : "X";
 
     }
 
-    const result =
-      document.getElementById("result");
+    return pattern;
 
-    const win =
-      actual === currentPrediction;
+}
 
-    if (win) {
 
-      result.textContent =
-        "🎉 THẮNG — Tín hiệu trùng kết quả";
+// ================================
+// TẠO PHIÊN MỚI
+// ================================
 
-      result.className =
-        "result win";
+function newSession() {
+
+    // Lưu phiên trước nếu chưa có kết quả
+    if (
+        history.length === 0 ||
+        history[0].session !== currentSession
+    ) {
+
+        history.unshift({
+            session: currentSession,
+            prediction: currentPrediction,
+            actual: "--",
+            status: "Chờ",
+            pattern: generatePattern()
+        });
+
+    }
+
+    currentSession++;
+
+    currentPrediction =
+        randomPrediction();
+
+    document.getElementById(
+        "currentSession"
+    ).textContent = currentSession;
+
+    const prediction =
+        document.getElementById("prediction");
+
+    prediction.textContent =
+        currentPrediction;
+
+    prediction.className =
+        "signal-value " +
+        (
+            currentPrediction === "Tài"
+                ? "tai"
+                : "xiu"
+        );
+
+    document.getElementById(
+        "result"
+    ).textContent =
+        "⏳ Đang chờ kết quả";
+
+    renderHistory();
+
+}
+
+
+// ================================
+// NHẬP KẾT QUẢ THỰC TẾ
+// ================================
+
+function setActual(actual) {
+
+    if (!currentSession) return;
+
+    // Nếu phiên hiện tại chưa có trong lịch sử
+    if (
+        history.length === 0 ||
+        history[0].session !== currentSession
+    ) {
+
+        history.unshift({
+            session: currentSession,
+            prediction: currentPrediction,
+            actual: actual,
+            status:
+                currentPrediction === actual
+                    ? "Đúng"
+                    : "Sai",
+            pattern: generatePattern()
+        });
 
     } else {
 
-      result.textContent =
-        "❌ THUA — Tín hiệu không trùng";
+        history[0].actual = actual;
 
-      result.className =
-        "result lose";
+        history[0].status =
+            currentPrediction === actual
+                ? "Đúng"
+                : "Sai";
 
     }
 
-    history.unshift({
-      session: session,
-      prediction: currentPrediction,
-      actual: actual,
-      win: win
-    });
+    const win =
+        currentPrediction === actual;
 
-    if (history.length > 20) {
-      history.pop();
+    const result =
+        document.getElementById("result");
+
+    if (win) {
+
+        result.innerHTML =
+            "✅ <span class='correct'>ĐÚNG</span>";
+
+    } else {
+
+        result.innerHTML =
+            "❌ <span class='wrong'>SAI</span>";
+
     }
 
     renderHistory();
 
-  }
+}
 
-  function renderHistory() {
 
-    const box =
-      document.getElementById("history");
+// ================================
+// HIỂN THỊ LỊCH SỬ
+// ================================
 
-    if (history.length === 0) {
+function renderHistory() {
 
-      box.innerHTML =
-        '<div style="text-align:center;color:#7186a5">Chưa có dữ liệu</div>';
+    const tbody =
+        document.getElementById("history");
 
-      return;
+    tbody.innerHTML = "";
 
-    }
+    history
+        .slice(0, 30)
+        .forEach(item => {
 
-    box.innerHTML = history.map(item => {
+            const tr =
+                document.createElement("tr");
 
-      const badge =
-        item.actual === "TÀI"
-          ? "badge badge-tai"
-          : "badge badge-xiu";
+            const predictionClass =
+                item.prediction === "Tài"
+                    ? "tai"
+                    : "xiu";
 
-      const outcome =
-        item.win
-          ? '<span class="win">THẮNG</span>'
-          : '<span class="lose">THUA</span>';
+            const actualClass =
+                item.actual === "Tài"
+                    ? "tai"
+                    : "xiu";
 
-      return `
-        <div class="history-item">
-          <span>
-            #${item.session}
-          </span>
+            let statusHTML;
 
-          <span>
-            <b>${item.prediction}</b>
-            →
-            <span class="${badge}">
-              ${item.actual}
-            </span>
-          </span>
+            if (item.status === "Đúng") {
 
-          <span>
-            ${outcome}
-          </span>
-        </div>
-      `;
+                statusHTML =
+                    "<span class='correct'>" +
+                    "Đúng ✅" +
+                    "</span>";
 
-    }).join("");
+            } else if (item.status === "Sai") {
 
-  }
+                statusHTML =
+                    "<span class='wrong'>" +
+                    "Sai ❌" +
+                    "</span>";
+
+            } else {
+
+                statusHTML =
+                    "<span style='color:#ffd45c'>" +
+                    "Đang chờ" +
+                    "</span>";
+
+            }
+
+            tr.innerHTML = `
+
+                <td class="session">
+                    ${item.session}
+                </td>
+
+                <td class="${predictionClass}">
+                    ${item.prediction}
+                </td>
+
+                <td class="${actualClass}">
+                    ${item.actual}
+                </td>
+
+                <td>
+                    ${statusHTML}
+                </td>
+
+                <td class="pattern">
+                    ${item.pattern}
+                </td>
+
+            `;
+
+            tbody.appendChild(tr);
+
+        });
+
+    updateStats();
+
+}
+
+
+// ================================
+// THỐNG KÊ
+// ================================
+
+function updateStats() {
+
+    const completed =
+        history.filter(
+            x => x.status === "Đúng" ||
+                 x.status === "Sai"
+        );
+
+    const correct =
+        history.filter(
+            x => x.status === "Đúng"
+        ).length;
+
+    document.getElementById(
+        "total"
+    ).textContent = completed.length;
+
+    const rate =
+        completed.length
+            ? Math.round(
+                correct /
+                completed.length *
+                100
+            )
+            : 0;
+
+    document.getElementById(
+        "accuracy"
+    ).textContent =
+        rate + "%";
+
+}
+
+
+// ================================
+// KHỞI TẠO
+// ================================
+
+function init() {
+
+    history = [
+
+        {
+            session: 3231503,
+            prediction: "Tài",
+            actual: "Tài",
+            status: "Đúng",
+            pattern: "TXXXXTX T".replace(" ", "")
+        },
+
+        {
+            session: 3231502,
+            prediction: "Tài",
+            actual: "Tài",
+            status: "Đúng",
+            pattern: "XTXXXXTX"
+        },
+
+        {
+            session: 3231501,
+            prediction: "Xỉu",
+            actual: "Xỉu",
+            status: "Đúng",
+            pattern: "XXTXXXXT"
+        },
+
+        {
+            session: 3231500,
+            prediction: "Tài",
+            actual: "Tài",
+            status: "Đúng",
+            pattern: "XXX TXXXX".replaceAll(" ", "")
+        },
+
+        {
+            session: 3231499,
+            prediction: "Xỉu",
+            actual: "Tài",
+            status: "Sai",
+            pattern: "XXXXTXXX"
+        },
+
+        {
+            session: 3231498,
+            prediction: "Xỉu",
+            actual: "Xỉu",
+            status: "Đúng",
+            pattern: "XXXXXTXX"
+        },
+
+        {
+            session: 3231497,
+            prediction: "Xỉu",
+            actual: "Xỉu",
+            status: "Đúng",
+            pattern: "XXXXXXTX"
+        },
+
+        {
+            session: 3231496,
+            prediction: "Xỉu",
+            actual: "Xỉu",
+            status: "Đúng",
+            pattern: "XXXXXXXT"
+        },
+
+        {
+            session: 3231495,
+            prediction: "Tài",
+            actual: "Tài",
+            status: "Đúng",
+            pattern: "TXXXXXXX"
+        },
+
+        {
+            session: 3231494,
+            prediction: "Xỉu",
+            actual: "Xỉu",
+            status: "Đúng",
+            pattern: "TTXXXXXX"
+        },
+
+        {
+            session: 3231493,
+            prediction: "Xỉu",
+            actual: "Tài",
+            status: "Sai",
+            pattern: "XTTXXXXXX"
+        },
+
+        {
+            session: 3231492,
+            prediction: "Xỉu",
+            actual: "Xỉu",
+            status: "Đúng",
+            pattern: "XXTTXXXX"
+        }
+
+    ];
+
+    renderHistory();
+
+}
+
+init();
 
 </script>
 
